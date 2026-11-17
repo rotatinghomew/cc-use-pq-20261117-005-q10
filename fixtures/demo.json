@@ -1,0 +1,64 @@
+{
+  "batch": {
+    "batch_id": "local-demo-v1",
+    "stories": [
+      {
+        "story_id": "stone-shelter",
+        "revision": 1,
+        "title": "三位旅人的石屋",
+        "tradition": "local_fable",
+        "source": {"reference": "本地合成样本 A", "kind": "local_synthetic"},
+        "characters": [
+          {"character_id": "traveler-1", "name": "甲", "sibling_order": 1},
+          {"character_id": "traveler-2", "name": "乙", "sibling_order": 2},
+          {"character_id": "traveler-3", "name": "丙", "sibling_order": 3}
+        ],
+        "events": [
+          {"event_id": "a-build", "sequence": 1, "actor_id": "traveler-1", "action": "搭起草棚", "consequence": "风雨中倒塌", "evidence": "样本叙述片段 A1"},
+          {"event_id": "b-build", "sequence": 2, "actor_id": "traveler-2", "action": "搭起木屋", "consequence": "暴雨中损坏", "evidence": "样本叙述片段 A2"},
+          {"event_id": "c-build", "sequence": 3, "actor_id": "traveler-3", "action": "搭起石屋", "consequence": "众人获得庇护", "evidence": "样本叙述片段 A3"}
+        ]
+      },
+      {
+        "story_id": "shared-orchard",
+        "revision": 1,
+        "title": "果园的三把钥匙",
+        "tradition": "local_fable",
+        "source": {"reference": "本地合成样本 B", "kind": "local_synthetic"},
+        "characters": [
+          {"character_id": "sister-1", "name": "春", "sibling_order": 1},
+          {"character_id": "sister-2", "name": "夏", "sibling_order": 2},
+          {"character_id": "sister-3", "name": "秋", "sibling_order": 3}
+        ],
+        "events": [
+          {"event_id": "lock-out", "sequence": 1, "actor_id": "sister-1", "action": "藏起钥匙", "consequence": "妹妹们无法进园", "evidence": "样本叙述片段 B1"},
+          {"event_id": "help-request", "sequence": 2, "actor_id": "sister-3", "action": "请求邻人作证", "consequence": "共同开启果园", "evidence": "样本叙述片段 B2"}
+        ]
+      },
+      {
+        "story_id": "two-paths",
+        "revision": 1,
+        "title": "山路与河路",
+        "tradition": "river_tales",
+        "source": {"reference": "本地合成样本 C", "kind": "local_synthetic"},
+        "characters": [
+          {"character_id": "walker-1", "name": "行者甲", "sibling_order": 1},
+          {"character_id": "walker-2", "name": "行者乙", "sibling_order": 2},
+          {"character_id": "walker-3", "name": "行者丙", "sibling_order": 3}
+        ],
+        "events": [
+          {"event_id": "choose", "sequence": 1, "actor_id": "walker-3", "action": "选择河路", "consequence": "三人会合", "evidence": "样本叙述片段 C1"}
+        ]
+      }
+    ]
+  },
+  "decisions": [
+    {"decision_id": "a-stone", "story_id": "stone-shelter", "story_revision": 1, "annotator": "reader-a", "sequence": 1, "pattern": "parallel", "youngest_outcome": "wins", "evidence_event_ids": ["a-build", "b-build", "c-build"]},
+    {"decision_id": "b-stone", "story_id": "stone-shelter", "story_revision": 1, "annotator": "reader-b", "sequence": 1, "pattern": "parallel", "youngest_outcome": "wins", "evidence_event_ids": ["a-build", "c-build"]},
+    {"decision_id": "a-orchard", "story_id": "shared-orchard", "story_revision": 1, "annotator": "reader-a", "sequence": 1, "pattern": "harm", "youngest_outcome": "wins", "evidence_event_ids": ["lock-out", "help-request"]},
+    {"decision_id": "b-orchard", "story_id": "shared-orchard", "story_revision": 1, "annotator": "reader-b", "sequence": 1, "pattern": "harm", "youngest_outcome": "wins", "evidence_event_ids": ["lock-out", "help-request"]},
+    {"decision_id": "c-orchard", "story_id": "shared-orchard", "story_revision": 1, "annotator": "reader-c", "sequence": 1, "pattern": "unclear", "youngest_outcome": "unknown", "evidence_event_ids": ["help-request"]}
+  ],
+  "tradition": "local_fable",
+  "minimum_reviewers": 2
+}
