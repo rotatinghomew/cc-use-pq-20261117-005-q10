@@ -43,6 +43,9 @@ class StoryPatternApplication:
     def compare_traditions(self, minimum_reviewers: int = 2) -> dict:
         return self.reports.compare(minimum_reviewers)
 
+    def compare_traditions_matched(self, match_keys: list[str], minimum_reviewers: int = 2) -> dict:
+        return self.reports.create_matched(match_keys, minimum_reviewers)
+
     def search_stories(self, **criteria) -> list[dict]:
         return self.catalog.search(**criteria)
 

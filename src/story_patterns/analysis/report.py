@@ -119,6 +119,20 @@ class ReportService:
         stories, decisions, origins, adjudications = self.store.analysis_snapshot(tradition)
         stories = select_cohort(stories, tradition)
         result = build_report(stories, decisions, tradition, minimum, origins, adjudications)
+        return self._freeze(result)
+
+    def create_matched(self, match_keys: list[str], minimum: int) -> dict:
+        from story_patterns.analysis.cohorts import select_cohort, validate_minimum
+        from story_patterns.analysis.matched import build_matched_comparison
+
+        minimum = validate_minimum(minimum)
+        stories, decisions, origins, adjudications = self.store.analysis_snapshot(None)
+        stories = select_cohort(stories, None)
+        result = build_matched_comparison(stories, decisions, origins, adjudications,
+                                          match_keys, minimum)
+        return self._freeze(result)
+
+    def _freeze(self, result: dict) -> dict:
         report_id = digest_json(result)[:24]
         request_digest = digest_json({"criteria": result["criteria"], "provenance": result["provenance"]})
         document = canonical_json({"report_id": report_id, **result})

@@ -58,6 +58,15 @@ def parser() -> argparse.ArgumentParser:
     compare = commands.add_parser("compare", help="compare tradition cohorts descriptively")
     compare.add_argument("--database", required=True)
     compare.add_argument("--minimum-reviewers", type=int, default=2)
+    matched = commands.add_parser(
+        "matched-compare",
+        help="chain profile, revision, consensus and matched sensitivity into one frozen report",
+    )
+    matched.add_argument("--database", required=True)
+    matched.add_argument("--match-by", required=True,
+                         help="comma-separated match keys: sibling_count, event_count, "
+                              "source_kind, revision_number, revision_recency")
+    matched.add_argument("--minimum-reviewers", type=int, default=2)
     lineage = commands.add_parser("lineage", help="show available story revisions")
     lineage.add_argument("--database", required=True)
     manifest = commands.add_parser("manifest", help="summarize imported batches and source references")
@@ -113,6 +122,9 @@ def execute(arguments: argparse.Namespace) -> dict:
         return app.preview_stories(rows)
     if arguments.command == "compare":
         return app.compare_traditions(arguments.minimum_reviewers)
+    if arguments.command == "matched-compare":
+        keys = [item.strip() for item in arguments.match_by.split(",") if item.strip()]
+        return app.compare_traditions_matched(keys, arguments.minimum_reviewers)
     if arguments.command == "lineage":
         return {"stories": app.revision_lineage()}
     if arguments.command == "manifest":

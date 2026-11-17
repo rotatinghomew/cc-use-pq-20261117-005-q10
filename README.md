@@ -18,6 +18,8 @@ PYTHONPATH=src python -m story_patterns.cli demo --database /tmp/story-patterns.
 
 导入前可以用 `preview` 汇总每条记录的校验错误，不写数据库；正式导入仍坚持整批事务。`lineage` 展示已录入的修订版本与缺失序号。`compare` 按传统标签分层输出描述性比例、共识数与覆盖率；不同分组的分母可能不同，结果不作因果或总体推断。
 
+`matched-compare --match-by 键,...` 把样本画像、修订变化、读者共识/仲裁与传统比较连成一次可复现分析，并冻结为可检索、可审计的报告。报告同时保留未限制的描述性比较和仅限可比样本的敏感性结果，便于核对差异是否来自各组收录结构或修订状态的不同。匹配键可选 `sibling_count`、`event_count`、`source_kind`、`revision_number`、`revision_recency`；每个匹配单元的候选、并列处理规则（按 story_id、revision 排序，各组保留最小配额）、逐条排除原因与实际覆盖都随报告保存。样本稀疏、修订状态不一致或找不到可比对象时，`warnings` 与 `not_comparable` 明确列出不能比较的范围；敏感性结果仅描述匹配子集，不作因果或总体结论。`export --format md` 同样渲染这类报告。
+
 `manifest` 汇总导入批次、故事修订和来源引用。保存报告还包含读者剔除敏感性检查，提示结论是否依赖某位读者；该诊断不等同于置信区间。报告可导出为 Markdown (`--format md`) 供课程讨论。
 
 `audit` 除 SQLite 外键和数据库完整性检查外，也会复核故事文档与索引列、导入批次摘要、标注证据、仲裁摘要及已保存报告的内容指纹是否一致。修订对比会标出角色、顺序、来源和事件内容变化；每个版本独立标注，系统不把旧版判断自动复制到新版。
